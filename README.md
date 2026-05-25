@@ -40,5 +40,4 @@ Because CRAB v1 was pre-trained on TinyStories to accommodate the 70M parameter 
 
 ---
 *Architected and engineered by Arshvir | Jaiho Labs*
----
 
