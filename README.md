@@ -1,43 +1,104 @@
-# 🦀 CRAB - Tiny Language Model
+# CRAB - Tiny Language Model
 
-**A lightweight (~70M parameter) experimental language model built, trained, and instruction-tuned entirely from scratch. No FineTunig, No Synthetic Data, Real World Data**
+CRAB is a lightweight experimental language model project built from scratch with PyTorch. It includes a GPT-style transformer architecture, training notebooks, project documentation, and a Streamlit interface for local inference.
 
-[![Python](https://img.shields.io/badge/Python-3.12-blue)](https://python.org)
-[![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-EE4C2C)](https://pytorch.org)
-[![Streamlit](https://img.shields.io/badge/Streamlit-UI-FF4B4B)](https://streamlit.io)
+The project is designed as an end-to-end machine learning engineering experiment: data preparation, model architecture, pretraining, instruction-style QA tuning, evaluation notes, and a small app for interacting with the model.
 
-## 📌 Project Overview
-CRAB TLM is an end-to-end Machine Learning Engineering project. The goal was to build a GPT-style Large Language Model completely from scratch using PyTorch, bypassing high-level wrappers. The model was successfully pre-trained and instruction-tuned on a strict zero-budget constraint using the Google Colab Free Tier (Tesla T4 GPU).
+## Highlights
 
-## 🗂️ Project Documentation
-To dive deep into the engineering behind CRAB, explore the documentation:
-* [Architecture Specifications](documents/ARCHITECTURE.md)
-* [Data Engineering Manifest](dataset/DATA_MANIFEST.md)
-* [Training Metrics & Evaluation](documents/TRAINING_METRICS.md)
-* [Experiments & Post-Mortems](documents/EXPERIMENTS_LOG.md)
+- Approximately 70M parameter GPT-style causal language model.
+- Implemented directly in PyTorch without high-level model wrappers.
+- Uses the GPT-2 tokenizer through Hugging Face Transformers.
+- Includes training notebooks for pretraining and fine-tuning experiments.
+- Provides a Streamlit UI for local generation.
+- Documents architecture, data choices, metrics, and experiment notes.
 
-## 🚀 Installation & Local Execution
+## Project Documentation
 
-1. **Clone the Repository:**
-   ```bash
-   git clone [https://github.com/avarshvir/crab_language_model.git](https://github.com/avarshvir/crab_language_model.git)
-   cd crab_language_model
-   ```
+For deeper technical details, see:
 
-2. **Install Dependencies:**
+- [Architecture Specifications](documents/ARCHITECTURE.md)
+- [Data Engineering Manifest](dataset/DATA_MANIFEST.md)
+- [Training Metrics & Evaluation](documents/TRAINING_METRICS.md)
+- [Experiments & Post-Mortems](documents/EXPERIMENTS_LOG.md)
+- [Model Notes](models/models.md)
+
+## Directory Structure
+
+```text
+crab_language_model/
+|-- app.py
+|-- requirements.txt
+|-- README.md
+|-- LICENSE
+|-- dataset/
+|   `-- DATA_MANIFEST.md
+|-- documents/
+|   |-- ARCHITECTURE.md
+|   |-- EXPERIMENTS_LOG.md
+|   `-- TRAINING_METRICS.md
+|-- frontend/
+|   |-- __init__.py
+|   `-- ui_components.py
+|-- models/
+|   |-- architecture.py
+|   `-- models.md
+`-- model_notebooks/
+    |-- crab_finetuning_v2.ipynb
+    |-- crab_picolm_v1.ipynb
+    `-- pretraining_crab_v1.ipynb
 ```
+
+## Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/avarshvir/crab_language_model.git
+cd crab_language_model
+```
+
+2. Create and activate a virtual environment:
+
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+```
+
+3. Install dependencies:
+
+```bash
 pip install -r requirements.txt
 ```
 
-3. **Launch the Streamlit Interface:**
-```
+## Running Locally
+
+Start the Streamlit app:
+
+```bash
 streamlit run app.py
 ```
 
-## ⚠️ Known Limitations (The Semantic Ceiling)
+The app expects the trained model configuration and weights to be available in the `models/` directory:
 
-Because CRAB v1 was pre-trained on TinyStories to accommodate the 70M parameter limit and VRAM constraints, it possesses a toddler-level core vocabulary. While it cleanly parses English syntax and retains its customized QA identity, it struggles heavily with factual world knowledge (e.g., history, programming) due to out-of-distribution embeddings.
+```text
+models/crab_config.json
+models/crab_v2_qa.pth
+```
 
----
-*Architected and engineered by Arshvir | Jaiho Labs*
+If those files are not present, the UI will still open, but the model core will report as offline.
 
+## Known Limitations
+
+CRAB v1 was trained under strict compute and VRAM constraints, including use of free-tier GPU resources. Because the model was trained at a small scale and on a limited dataset, it can produce fluent-looking text while still struggling with factual world knowledge, programming details, and out-of-distribution prompts.
+
+## Tech Stack
+
+- Python 3.12
+- PyTorch 2.0+
+- Hugging Face Transformers
+- Streamlit
+
+## Author
+
+Architected and engineered by Arshvir | Jaiho Labs
